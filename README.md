@@ -81,6 +81,7 @@ For the complete list of environment variables, please refer to [here](/docker/.
 ```bash
 python3 worker_texgen.py
 ```
+After both containers are up and running, Aphrodite-engine will begin downloading additional models, which total around 10 GB in size. Please allow a few extra minutes for this process to finish. Once completed, you will observe both containers starting to communicate with each other.
 
 **Note:** To interact with the Docker container, you can follow these steps:
 - To list your running containers, use the command `docker ps -a`
