@@ -1,0 +1,16 @@
+worker_config:
+  exec_type: it
+  ports: "443:443"
+  network: ai_network
+  container_name: worker
+  image_name: worker-image
+
+aphrodite_config:
+  exec_type: it
+  ports: "2242:7860"
+  network: ai_network
+  container_name: aphrodite-engine
+  env:
+    - MODEL_NAME=PygmalionAI/pygmalion-2-7b
+    - KOBOLD_API=true
+  image_name: alpindale/aphrodite-engine
