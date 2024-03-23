@@ -10,7 +10,10 @@ aphrodite_config:
   ports: "2242:7860"
   network: ai_network
   container_name: aphrodite-engine
+  gpus: "all"
+  shm-size: "8g"
   env:
     - MODEL_NAME=PygmalionAI/pygmalion-2-7b
     - KOBOLD_API=true
+    - GPU_MEMORY_UTILIZATION=0.8 #If you are running out of memory, consider decreasing this value
   image_name: alpindale/aphrodite-engine
