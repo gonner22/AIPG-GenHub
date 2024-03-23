@@ -90,6 +90,6 @@ python3 worker_texgen.py
 
 ## ImageGen Automation
 **AI Power Grid Image Worker**  
-This module facilitates the setup of an AI Power Grid Worker, offering capabilities for image generation, post-processing, or analysis for diverse applications.
+This module facilitates the setup of an AI Power Grid Worker through the creation and execution of a Docker container, offering capabilities for image generation, post-processing, or analysis for diverse applications.
 
 TBD TBD TBD !!! In active development, it will be ready for release and published in this repository soon.
