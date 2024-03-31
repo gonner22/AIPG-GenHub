@@ -1,0 +1,29 @@
+## Common for all worker Types
+
+# The horde url
+horde_url: "https://api.aipowergrid.io/"
+# Give a cool name to your instance
+worker_name: "An Awesome AI Horde Worker"
+# The api_key identifies a unique user in the horde
+# Visit https://stablehorde.net/register to create one before you can join
+api_key: "0000000000"
+# Put other users whose prompts you want to prioritize.
+# The owner's username is always included so you don't need to add it here,
+max_threads: 1
+# We will keep this many requests in the queue so we can start working as soon as a thread is available
+# Recommended to keep no higher than 1
+queue_size: 0
+
+
+## Text Gen
+
+# The name to use when running a scribe worker. Will default to `worker_name` if not set
+scribe_name: "An Awesome Scribe"
+# The KoboldAI Client API URL 
+# By default, this should be http://<container_name>:7860, in our template is set to: http://aphrodite-engine:7860. 
+# Attention: the 'container_name' field refers to the name of the Aphrodite container.
+kai_url: "http://aphrodite-engine:7860"
+# The max amount of tokens to generate with this worker 
+max_length: 512
+# The max tokens to use from the prompt
+max_context_length: 1024
