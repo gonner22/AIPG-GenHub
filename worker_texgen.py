@@ -57,7 +57,7 @@ if __name__ == "__main__":
  /_/    \_\_____|_|     \_____|       \_____|\___|_| |_|_|  |_|\__,_|_.__/ 
 
     ''')
-    print("Centralized repository for AI worker and generators")
+    print("Centralized repository for AI Power Grid Workers")
     print("Location: United States of America / Web: aipowergrid.io / X: @AIPowerGrid / e-mail: admin@aipowergrid.io\n")
 
     # Loading configurations from config.yaml
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     subprocess.run(['docker', 'network', 'create', config['worker_config']['network']])
 
     # Cloning repositories from GitHub
-    clone_repo("https://github.com/gonner22/AI-Horde-Worker", "AI-Horde-Worker")
+    clone_repo("https://github.com/GoldenWind8/grid-text-worker", "AI-Horde-Worker")
     clone_repo("https://github.com/gonner22/aphrodite-engine", "aphrodite-engine")
 
     # Checking for existence of bridgeData.yaml

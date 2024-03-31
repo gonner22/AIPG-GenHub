@@ -58,7 +58,7 @@ Follow these steps to customize your TextGen Worker:
   
 - Configure `config.yaml` in the root directory of the cloned repository, where the user defines values for the containers.
 
-  - `MODEL_NAME`: Path to the model on hugging face
+  - `MODEL_NAME`: See list of models supported, take note of required VRAM.
   - `GPU_MEMORY_UTILIZATION`: If you are running out of memory, consider decreasing this value
 
 For the complete list of environment variables, please refer to [here](/docker/.env). These represent the default configuration, which can be further customized based on individual user requirements and hardware specifications.
@@ -66,6 +66,10 @@ For the complete list of environment variables, please refer to [here](/docker/.
 - Running the Python script to launch TextGen, including worker and Aphrodite
 ```bash
 python3 worker_texgen.py
+```
+Run for cleaning up containers when you are done
+```bash
+./cleanup.sh
 ```
 After both containers are up and running, Aphrodite-engine will begin downloading additional models, which total around 14-48 GB in size depending on the model . Please allow a few extra minutes for this process to finish. Once completed, you will observe both containers starting to communicate with each other.
 

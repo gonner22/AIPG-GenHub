@@ -13,7 +13,7 @@ aphrodite_config:
   gpus: "all"
   shm-size: "8g"
   env:
-    - MODEL_NAME=PygmalionAI/pygmalion-2-7b
+    - MODEL_NAME=TheBloke/Mistral-7B-v0.1-GPTQ #See list of models supported, take note of required VRAM
     - KOBOLD_API=true
     - GPU_MEMORY_UTILIZATION=0.8 #If you are running out of memory, consider decreasing this value
   image_name: alpindale/aphrodite-engine
