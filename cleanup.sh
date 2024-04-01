@@ -47,8 +47,8 @@ remove_docker_container_and_image "worker" "worker_image_name"
 remove_docker_container_and_image "aphrodite-engine" "aphrodite_image_name"
 
 # Remove cloned repositories
-#remove_cloned_repo "AI-Horde-Worker"
-#remove_cloned_repo "aphrodite-engine"
+remove_cloned_repo "grid-text-worker"
+remove_cloned_repo "aphrodite-engine"
 
 # Remove Docker network. Replace with actual network name
 remove_docker_network "ai_network"

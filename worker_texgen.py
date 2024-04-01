@@ -68,7 +68,7 @@ if __name__ == "__main__":
     subprocess.run(['docker', 'network', 'create', config['worker_config']['network']])
 
     # Cloning repositories from GitHub
-    clone_repo("https://github.com/GoldenWind8/grid-text-worker", "AI-Horde-Worker")
+    clone_repo("https://github.com/GoldenWind8/grid-text-worker", "grid-text-worker")
     clone_repo("https://github.com/gonner22/aphrodite-engine", "aphrodite-engine")
 
     # Checking for existence of bridgeData.yaml
@@ -77,11 +77,11 @@ if __name__ == "__main__":
         print("Please copy bridgeData_template.yaml file with the name bridgeData.yaml in the root directory including your configurations.")
         exit(1)
 
-    # Copying bridgeData.yaml to AI-Horde-Worker directory
-    shutil.copy("bridgeData.yaml", "AI-Horde-Worker")
+    # Copying bridgeData.yaml to grid-text-worker directory
+    shutil.copy("bridgeData.yaml", "grid-text-worker")
 
-    # Changing directory to AI-Horde-Worker
-    os.chdir("AI-Horde-Worker")
+    # Changing directory to grid-text-worker
+    os.chdir("grid-text-worker")
 
     # Building worker Docker image
     build_docker_image()

@@ -1,5 +1,4 @@
 # AIPG-GenHub
-
 This repository serves a dual purpose. 
 - Firstly, it facilitates the automated setup and execution of two Docker containers, streamlining the process for users interested in TextGen. 
 - Additionally, it provides an efficient solution for those working with ImageGen, enabling image generation, post-processing, or analysis with ease through Docker containers.
@@ -12,11 +11,11 @@ This repository serves a dual purpose.
 Feel free to jump to the section that interests you the most!
 
 ## TextGen Automation
-**AI-Horde-Worker**  
-This component enables the setup of an AI Horde Worker, designed to complete text inference jobs on the Horde.
+**AI-Grid-Worker**  
+This component enables the setup of an AI Grid Worker, designed to complete text inference jobs on The Grid.
 
 **aphrodite-engine**  
-Aphrodite serves as the official backend engine for PygmalionAI. Will be used by the worker for inference.
+Aphrodite serves as the official backend engine for Text Inference.
 
 ### Installation
 #### Pre-requisites
@@ -47,18 +46,18 @@ pip install pyyaml
 ### Usage
 Follow these steps to customize your TextGen Worker:
 
-- Create a duplicate of bridgeData_template.yaml and rename it to bridgeData.yaml in the root directory of the cloned repository. Configure the following values within `bridgeData.yaml`:
+- Create a duplicate of bridgeData_textgen_template.yaml and rename it to bridgeData.yaml in the root directory of the cloned repository. Configure the following values within `bridgeData.yaml`:
 
-  - `api_key`: Your horde API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
+  - `api_key`: Your Grid API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
   - `max_threads`: specifies how many concurrent requests your worker should run. Higher values require more VRAM.
   - `scribe_name`: your custom worker name.
   - `kai_url`: the Aphrodite URL. By default, this should be `http://<container_name>:7860, in our template is set to: http://aphrodite-engine:7860`. Attention: the 'container_name' field refers to the name of the Aphrodite container.
   - `max_length`: this specifies the max number of tokens every request can make. A good value is `512`.
-  - `max_context_length`: The maximum context length of the horde worker. Set this to your model's default max length, or whatever value you passed to `--max-model-len` when launching the engine.
+  - `max_context_length`: The maximum context length of the Grid worker. Set this to your model's default max length, or whatever value you passed to `--max-model-len` when launching the engine.
   
 - Configure `config.yaml` in the root directory of the cloned repository, where the user defines values for the containers.
 
-  - `MODEL_NAME`: See list of models supported, take note of required VRAM.
+  - `MODEL_NAME`: See list of models supported [Model List](to be added), take note of required VRAM.
   - `GPU_MEMORY_UTILIZATION`: If you are running out of memory, consider decreasing this value
 
 For the complete list of environment variables, please refer to [here](/docker/.env). These represent the default configuration, which can be further customized based on individual user requirements and hardware specifications.
@@ -71,7 +70,7 @@ Run for cleaning up containers when you are done
 ```bash
 ./cleanup.sh
 ```
-After both containers are up and running, Aphrodite-engine will begin downloading additional models, which total around 14-48 GB in size depending on the model . Please allow a few extra minutes for this process to finish. Once completed, you will observe both containers starting to communicate with each other.
+After both containers are up and running, Aphrodite-engine will begin downloading additional models, which total around 14-48 GB in size depending on the model. Please allow a few extra minutes for this process to finish. Once completed, you will observe both containers starting to communicate with each other.
 
 **Note:** To interact with the Docker container, you can follow these steps:
 - To list your running containers, use the command `docker ps -a`
