@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # Checking for existence of bridgeData.yaml
     if not os.path.exists("bridgeData.yaml"):
         print("Error: bridgeData.yaml not found!")
-        print("Please copy bridgeData_template.yaml file with the name bridgeData.yaml in the root directory including your configurations.")
+        print("Please copy bridgeData_textgen_template.yaml file with the name bridgeData.yaml in the root directory including your configurations.")
         exit(1)
 
     # Copying bridgeData.yaml to grid-text-worker directory
