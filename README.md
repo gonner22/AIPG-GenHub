@@ -19,7 +19,7 @@ Aphrodite serves as the official backend engine for Text Inference.
 
 ### Installation
 #### Pre-requisites
-- Install and configure Docker and Python on your system.
+- Install and configure Docker, Python, CUDA Driver, CUDA Toolkit and NVIDIA Container Toolkit on your system.
 
 To use TextGen, follow these steps:
 1. Clone the repository AIPG-GenHub.
