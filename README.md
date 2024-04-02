@@ -46,7 +46,7 @@ pip install pyyaml
 ### Usage
 Follow these steps to customize your TextGen Worker:
 
-- Create a duplicate of bridgeData_textgen_template.yaml and rename it to bridgeData.yaml in the root directory of the cloned repository. Configure the following values within `bridgeData.yaml`:
+- Create a duplicate of `bridgeData_textgen_template.yaml` and rename it to bridgeData.yaml in the root directory of the cloned repository. Configure the following values within `bridgeData.yaml`:
 
   - `api_key`: Your Grid API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
   - `max_threads`: specifies how many concurrent requests your worker should run. Higher values require more VRAM.
