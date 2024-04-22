@@ -16,4 +16,5 @@ aphrodite_config:
     - MODEL_NAME=TheBloke/Mistral-7B-v0.1-GPTQ #See list of models supported, take note of required VRAM
     - KOBOLD_API=true
     - GPU_MEMORY_UTILIZATION=0.8 #If you are running out of memory, consider decreasing this value
+    - HF_TOKEN=hf_****  #Your hugging face token, If you are using a gated model like llama 3.
   image_name: alpindale/aphrodite-engine

@@ -1,4 +1,4 @@
-# AIPG-GenHub
+# Generation Hub!
 This repository serves a dual purpose. 
 - Firstly, it facilitates the automated setup and execution of two Docker containers, streamlining the process for users interested in TextGen. 
 - Additionally, it provides an efficient solution for those working with ImageGen, enabling image generation, post-processing, or analysis with ease through Docker containers.
@@ -59,6 +59,8 @@ Follow these steps to customize your TextGen Worker:
 
   - `MODEL_NAME`: See list of models supported [Model List](to be added), take note of required VRAM.
   - `GPU_MEMORY_UTILIZATION`: If you are running out of memory, consider decreasing this value
+  - `HF_TOKEN`: Your hugging face token, If you are using a gated model like llama 3.
+
 
 For the complete list of environment variables, please refer to [here](/docker/.env). These represent the default configuration, which can be further customized based on individual user requirements and hardware specifications.
 
