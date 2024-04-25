@@ -19,7 +19,11 @@ Aphrodite serves as the official backend engine for Text Inference.
 
 ### Installation
 #### Pre-requisites
-- Install and configure Docker, Python, CUDA Driver, CUDA Toolkit and NVIDIA Container Toolkit on your system.
+- Install and configure 
+  - Docker: https://docs.docker.com/engine/install
+  - Python 
+  - CUDA Driver, CUDA Toolkit and NVIDIA Container Toolkit on your system: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+  - On Ubuntu you will also need to run: ```sudo apt install python3.10-venv```
 
 To use TextGen, follow these steps:
 1. Clone the repository AIPG-GenHub.
@@ -43,34 +47,34 @@ source venv/bin/activate
 pip install pyyaml
 ```
 
-### Usage
-Follow these steps to customize your TextGen Worker:
+To customize your TextGen Worker, follow these steps:
 
-- Create a duplicate of `bridgeData_textgen_template.yaml` and rename it to `bridgeData.yaml` in the root directory of the cloned repository. Configure the following values within `bridgeData.yaml`:
+1. Create a copy of `bridgeData_textgen_template.yaml` in the root directory of the cloned repository and rename it to `bridgeData.yaml`. Update the following mandatory fields in `bridgeData.yaml`:
+   - `api_key` _(required)_: Enter your Grid API key. If you don't have one, [register here](https://api.aipowergrid.io/register) to get an API key.
+   - `scribe_name` _(required)_: Choose a custom name for your worker.
 
-  - `api_key`: Your Grid API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
-  - `max_threads`: specifies how many concurrent requests your worker should run. Higher values require more VRAM.
-  - `scribe_name`: your custom worker name.
-  - `kai_url`: the Aphrodite URL. By default, this should be `http://<container_name>:7860, in our template is set to: http://aphrodite-engine:7860`. Attention: the 'container_name' field refers to the name of the Aphrodite container.
-  - `max_length`: this specifies the max number of tokens every request can make. A good value is `512`.
-  - `max_context_length`: The maximum context length of the Grid worker. Set this to your model's default max length, or whatever value you passed to `--max-model-len` when launching the engine.
-  
-- Configure `config.yaml` in the root directory of the cloned repository, where the user defines values for the containers.
+   _Optionally, you can also modify these fields:_
+   - `max_threads`: Set the number of concurrent requests your worker should handle. Higher values require more VRAM. Default is 1.
+   - `kai_url`: Specify the Aphrodite URL. By default, it should be `http://<container_name>:7860`. In the template, it's set to `http://aphrodite-engine:7860`. Note that `<container_name>` refers to the name of the Aphrodite container.
+   - `max_length`: Define the maximum number of tokens per request. A recommended value is `512`. 
+   - `max_context_length`: Set the maximum context length of the Grid worker. This should match your model's default max length or the value you provided for `--max-model-len` when starting the engine.
 
-  - `MODEL_NAME`: See list of models supported [Model List](to be added), take note of required VRAM.
-  - `GPU_MEMORY_UTILIZATION`: If you are running out of memory, consider decreasing this value
-  - `HF_TOKEN`: Your hugging face token, If you are using a gated model like llama 3.
+2. Edit `config.yaml` in the root directory of the cloned repository to configure container settings:
+   - `MODEL_NAME` _(required)_: Specify the name of the model you want to use. Refer to the [Model List](to be added) for supported models and their VRAM requirements.
+   - `HF_TOKEN` _(required for gated models)_: If you're using a gated model like llama 3, provide your [Hugging Face token](https://huggingface.co/settings/tokens).
+   - `GPU_MEMORY_UTILIZATION` (optional): If you encounter memory issues, consider reducing this value.
 
+Please ensure that you provide the mandatory fields `MODEL_NAME`, `HF_TOKEN` (if using a gated model), and `api_key` in the respective configuration files. The other fields are optional and can be left at their default values if desired.
 
-For the complete list of environment variables, please refer to [here](/docker/.env). These represent the default configuration, which can be further customized based on individual user requirements and hardware specifications.
+For the complete list of environment variables, please refer to [here](https://github.com/PygmalionAI/aphrodite-engine/blob/main/docker/.env). These represent the default configuration, which can be further customized based on individual user requirements and hardware specifications.
 
-- Running the Python script to launch TextGen, including worker and Aphrodite
+### Running the Python script to launch Worker and Aphrodite
 ```bash
-python3 worker_texgen.py
+sudo python3 worker_texgen.py
 ```
-Run for cleaning up containers when you are done
+Run to clean up containers when you are done
 ```bash
-./cleanup.sh
+sudo ./cleanup.sh
 ```
 After both containers are up and running, Aphrodite-engine will begin downloading additional models, which total around 14-48 GB in size depending on the model. Please allow a few extra minutes for this process to finish. Once completed, you will observe both containers starting to communicate with each other.
 

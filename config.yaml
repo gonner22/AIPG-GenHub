@@ -15,6 +15,7 @@ aphrodite_config:
   env:
     - MODEL_NAME=meta-llama/Meta-Llama-3-8B-Instruct #or use TheBloke/Mistral-7B-v0.1-GPTQ #See list of models supported, take note of required VRAM
     - KOBOLD_API=true
-    - GPU_MEMORY_UTILIZATION=0.8 #If you are running out of memory, consider decreasing this value
-    - HF_TOKEN=hf_****  #Your hugging face token, If you are using a gated model like llama 3.
+    - GPU_MEMORY_UTILIZATION=0.9 #If you are running out of memory, consider decreasing this value
+    - HF_TOKEN=hf_****  #Your hugging face token: https://huggingface.co/settings/tokens
+    #- CONTEXT_LENGTH=4096 # If unspecified, will be automatically derived from the model.
   image_name: alpindale/aphrodite-engine
