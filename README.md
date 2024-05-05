@@ -86,7 +86,7 @@ After both containers are up and running, Aphrodite-engine will begin downloadin
 
 ## ImageGen Automation
 **AI Power Grid Image Worker**
-This module facilitates the setup of an AI Power Grid Worker through the creation and execution of a Docker container, offering capabilities for image generation, post-processing, or analysis for diverse applications.
+This module facilitates the setup of an AI Power Grid Image Worker through the creation and execution of a Docker container, offering capabilities for image generation, post-processing, or analysis for diverse applications.
 
 ### Installation
 #### Pre-requisites
@@ -97,7 +97,7 @@ This module facilitates the setup of an AI Power Grid Worker through the creatio
   - CUDA Toolkit and NVIDIA Container Toolkit on your system: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
   - On Ubuntu you will also need to run: ```sudo apt install python3.10-venv```
 
-To use TextGen, follow these steps:
+To use ImageGen, follow these steps:
 1. Clone the repository AIPG-GenHub.
 ```bash 
 git clone https://github.com/gonner22/AIPG-GenHub
@@ -108,13 +108,13 @@ cd AIPG-GenHub
 ```
 3. Create a Python virtual environment.
 ```bash
-python3 -m venv venv2
+python3 -m venv venv-imagegen
 ```
 4. Activate the virtual environment.
 ```bash
-source venv2/bin/activate
+source imagegen/bin/activate
 ```
-5. Install PyYAML.
+5. Install Dependencies.
 ```bash
 pip install python-dotenv loguru ruamel.yaml horde-model-reference horde-sdk
 ```
@@ -138,27 +138,16 @@ python3 convert_config_to_env.py
 ```
    After executing the script, you will find `bridgeData.env` in the same directory. This file contains the environment variables compatible with the container.
 
+3. Edit `config-imagengen.yaml` in the root directory of the cloned repository to configure container settings:
+  - exec_type: Define the exec type of the container
+  - ports: Ports enabled
+  - container_name: Define the container name
+  - gpus: All the gpus with "all", or using the gpu number
+  - env-file: the file where the container env variables are stored, default file is `bridgeData.env`
+  - image_name: Define the image name
+
 ### Building the image for our worker
-Select the appropriate version based on the CUDA version installed on your system:
 
-#### CUDA 12.1
-```bash
-docker build -t <image_name> -f Dockerfiles/Dockerfile.12.1.1-22.04 .
-```
-#### CUDA 12.2
-```bash
-docker build -t <image_name> -f Dockerfiles/Dockerfile.12.2.2-22.04 .
-```
-#### CUDA 12.3
-```bash
-docker build -t <image_name> -f Dockerfiles/Dockerfile.12.3.2-22.04 .
-```
-
-After a brief period, the image will be generated and downloaded, totaling around 9.31 GB.
-
-### Running the container
-```bash
-docker run --gpus "all" -it --env-file bridgeData.env -p 443:443 --name <container_name> <image_name>
 ```
 
 After executing this command, the container will be loaded. Please wait a few minutes as it downloads the models.
