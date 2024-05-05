@@ -146,8 +146,9 @@ python3 convert_config_to_env.py
   - env-file: the file where the container env variables are stored, default file is `bridgeData.env`
   - image_name: Define the image name
 
-### Building the image for our worker
-
+### Running the Python script to launch Image Worker
+```bash
+sudo python3 worker_imagegen.py
 ```
 
 After executing this command, the container will be loaded. Please wait a few minutes as it downloads the models.
