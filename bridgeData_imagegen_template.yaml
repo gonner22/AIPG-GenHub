@@ -1,0 +1,233 @@
+## Common for all worker Types
+
+# The horde url
+horde_url: "https://api.aipowergrid.io"
+
+# The api_key identifies a unique user in the horde
+# Visit https://api.aipowergrid.io to create one before you can join
+api_key: "Please set your API key - https://api.aipowergrid.io/register"
+
+# Put other users whose prompts you want to prioritize.
+# The owner's username is always included so you don't need to add it here if you use the key specified in `api_key` for requests
+priority_usernames: []
+
+# The amount of parallel jobs to pick up for the horde.
+# Only high end cards (e.g, 3080 or better) benefit from this setting.
+# If you have a 20xx or earlier, or a xx60/xx70, do not change this setting from 1.
+max_threads: 1
+
+# We will keep this many requests in the queue so we can start working as soon as a thread is available
+# This generally should be or 1 or 2. You should never set this higher than 2 if your max_threads is 2.
+queue_size: 1
+
+# This will try to pull these many jobs per request and perform batched inference.
+# This is way more optimized than doing them 1 by 1, but is slower.
+# Keep in mind, that the horde will not give your max batch at your max resolution
+# In order to avoid running out of VRAM.
+# The Horde will assume you can fulfil your max batch at HALF you max resolution.
+# So make sure you can generate your max_batch @ max_power/2
+# Over your half max_power, AI Horde will smartly assign only as much batches
+# as it calculates you can achieve. If you start running out of VRAM, reduce
+# max_power or max_batch.
+max_batch: 1
+
+
+# When Enabled will run CLIP model (Checking for potential CSAM or NSFW) on GPU insted of CPU
+# Enable this on cards with 12gb or more VRAM to increase the rate you complete jobs
+# You can enable this on cards with less VRAM if you do not load SD2.0 or SDXL models, and keep your max_power low (<32)
+safety_on_gpu: false
+
+
+# If set to True, this worker will not only pick up jobs where the user has the required kudos upfront.
+# Effectively this will exclude all anonymous accounts, and registered accounts who haven't contributed.
+# Users in priority_usernames and trusted users will bypass this restriction
+require_upfront_kudos: false
+
+# If set, this worker will use this civitai API token when downloading any resources from civitai.
+# This is required in order to provide LoRas/TIs (or other resources)
+# which are marked as requiring a civitai token to download.
+#
+# You can get your civitai API Key from https://civitai.com/user/account (look for 'Add API Key')
+#
+# Remove the # from the line below and add your civitai API token to enable this feature.
+# civitai_api_token:
+
+#######################################
+## Dreamer (Stable Diffusion Worker) ##
+#######################################
+
+# The worker name to use when running a dreamer instance.
+dreamer_name: "Please set the name of your Worker"
+
+# This is representation of your max resolution (max pixels) supported.
+# The formula is `64 * 64 * 8 * max_power` (giving total pixels)
+#  e.g.:
+#       8  = 512x512
+#       18 = 768x768
+#       32 = 1024x1024
+#       50 = 1280x1280
+#       ...
+
+max_power: 50
+
+# A list of words which you do not want to your worker to accept if they are in the prompt
+blacklist: []
+
+# If you do not want to serve NSFW images, set this to false.
+nsfw: true
+
+# If you want
+censor_nsfw: false
+
+# A list of words for which you always want to censor, even if `nsfw` is true.
+censorlist: []
+
+# Accept jobs which use a user-supplied image.
+allow_img2img: true
+
+# Accept jobs which use a user-supplied image and an inpainting specific model.
+# Forced to false if `allow_img2img` is false.
+allow_painting: true
+
+# Allow user request which are from behind VPNs.
+# Note: The worker does not directly interact with user IPs - it only interacts with the stablehorde API.
+allow_unsafe_ip: true
+
+# Allow upscaling, facefixer and other post-generation features to be performed by the worker.
+allow_post_processing: true
+
+# Allow controlnet jobs to be done by this worker.
+# Note: There is additional RAM/VRAM overhead with this option. Low VRAM cards (<6gb) should be cautious to enable this.
+allow_controlnet: false
+
+# Allow LoRas to be used. This requires that you have a fast internet connection.
+# LoRas will be downloaded on demand. `max_lora_cache_size` controls how many gigabytes you will keep downloaded.
+# 5gb of preselected LoRas are always downloaded the first time you start the worker with this setting.
+allow_lora: false
+
+# The number of gigabytes of LoRas too keep cached. This is in addition to the preselected LoRas.
+max_lora_cache_size: 10 # In gigabytes. Min is 10.
+
+# Automatically determine the models which have the highest queue and offer those.
+dynamic_models: false # Currently unused in reGen
+
+# The number of models to offer when `dynamic_models` is true.
+number_of_dynamic_models: 0 # Currently unused in reGen
+
+# If `dynamic_models` is true, the maximum number of models to download automatically for that purpose.
+max_models_to_download: 10 # Currently unused in reGen
+
+# The frequency (in seconds) to output worker summary stats, such as kudos per hour.
+# Set to zero to disable stats output completely.
+stats_output_frequency: 30
+
+
+# The location in which stable diffusion ckpt models are stored
+cache_home: "./models/"
+
+# The location of the temp directory, also used for the model cache
+temp_dir: "./tmp" # Currently unused in reGen
+
+
+# Always download models when required without prompting
+always_download: true # Currently unused in reGen
+
+# Disable the terminal GUI, which displays information about the worker and the horde.
+disable_terminal_ui: false # Currently unused in reGen
+
+
+# Obsolete
+vram_to_leave_free: "80%" # Currently unused in reGen
+
+# The target amount of system ram to keep free.
+# The worker only makes a best effort. You still have to avoid using up too much RAM with other programs.
+ram_to_leave_free: "80%" # Currently unused in reGen
+
+# Obsolete
+disable_disk_cache: false # Currently unused in reGen
+
+# The models to use.
+# Instead of a model name you may use of any of the following magic constants:
+#   "ALL"  - means load all possible models. Expect this to take over 1TB of space!
+#   "TOP n"  - load the top "N" most popular models, use for example, "top 5" or "top 3", etc.
+#   "BOTTOM n"  - load the top "N" most popular models, use for example, "top 5" or "top 3", etc.
+#   (not currently supported) "ALL <style> MODELS"  -  For example, "all anime models", styles are: generalist, artistic, realistic, anime, furry, other
+#   (not currently supported) "ALL SFW MODELS"  -  All models marked as being SFW
+#   (not currently supported) "ALL NSFW MODELS"  -  All models marked as being NSFW
+#
+# The official model reference is (in json format) found at https://github.com/Haidra-Org/AI-Horde-image-model-reference/blob/main/stable_diffusion.json.
+# Several front ends also a list of model names.
+# The model name must match the name in the model reference, or be a magic constant.
+#
+models_to_load:
+  #- "top 2"
+  #- "ALL MODELS"
+  #- "TOP 3"
+  - "Juggernaut XL"
+  #- "stable_diffusion_2.1"
+  #- "stable_diffusion"
+  #- "Anything Diffusion"
+  #- "Yiffy"
+  #- "waifu_diffusion"
+  #- "Arcane Diffusion"
+  #- "Spider-Verse Diffusion"
+  #- "Elden Ring Diffusion"
+  #- "Robo-Diffusion"
+  #- "mo-di-diffusion"
+  #- "Knollingcase"
+  #- "stable_diffusion_inpainting"
+
+# This is used when `dynamic_models` is true or TOP n models are selected in models_to_load
+# The models in this list will not be loaded when they exist in the top models
+#
+# This is to avoid loading models which you do not want either due to VRAM constraints, or due to NSFW content
+# or any other reason.
+models_to_skip:
+  - "pix2pix" # Not currently supported
+  - "SDXL_beta::stability.ai#6901" # Do not remove this, as this model would never work
+  - A to Zovya RPG # This model is known to cause problems with reGen
+  #- "stable_diffusion_inpainting"  # Inpainting is generally quite heavy along with other models for smaller GPUs.
+  #- "stable_diffusion_2.1"  # Stable diffusion 2.1 has bigger memory requirements than 1.5, so if your card cannot lift, it, disable it
+  #- "stable_diffusion_2.0"  # Same as Stable diffusion 2.1
+  ## Popular NSFW models:
+  #- "Zeipher Female Model"
+  #- "Hentai Diffusion"
+
+# If you are getting messages about jobs taking too long, you can change this to true if you no longer want to see them
+# Please note, that if you *are* getting these messages, you are serving jobs much slower than is ideal,
+# and you very likely would get more kudos/hr if you just lower your max_power.
+suppress_speed_warnings: false # Currently unused in reGen
+
+#########################
+## Scribe (LLM Worker) ##
+#########################
+
+# The worker name to use when running a scribe worker.
+scribe_name: "An Awesome Scribe"
+
+# The KoboldAI Client API URL
+kai_url: "http://localhost:5000"
+
+# The max amount of tokens to generate with this worker
+max_length: 80
+
+# The max tokens to use from the prompt
+max_context_length: 1024
+
+# When set to true, the horde alias behind the API key will be appended to the model that is advertised to the horde
+# This will prevent the model from being used from the shared pool, but will ensure that no other worker
+# can pretend to serve it
+branded_model: true
+
+## Alchemist (Image interrogation and post-processing)
+
+# The name to use when running an alchemist worker.
+alchemist_name: "An Awesome Alchemist"
+
+# The alchemy forms this worker can serve.
+forms:
+  - "caption"
+  - "nsfw" # uses CPU
+  # Heavier than the others, but rewards more kudos
+  - "interrogation"
+  - "post-process"
