@@ -85,7 +85,85 @@ After both containers are up and running, Aphrodite-engine will begin downloadin
 - If your Texgen application utilizes ports other than 7860 for internal Docker-to-Docker communication and 2242 for internal Docker-to-host communication, you will need to adjust them accordingly. After modifying these ports, ensure to update them both in the Dockerfile and the bridgeData.yaml configuration file.
 
 ## ImageGen Automation
-**AI Power Grid Image Worker**  
+**AI Power Grid Image Worker**
 This module facilitates the setup of an AI Power Grid Worker through the creation and execution of a Docker container, offering capabilities for image generation, post-processing, or analysis for diverse applications.
 
-TBD TBD TBD !!! In active development, it will be ready for release and published in this repository soon.
+### Installation
+#### Pre-requisites
+- Install and configure
+  - Docker: https://docs.docker.com/engine/install
+  - Python
+  - CUDA Driver 12.1, 12.2 or 12.3 only. Ensure that one of these three versions is installed on your system, as you will later need to select the container image that matches the installed version.
+  - CUDA Toolkit and NVIDIA Container Toolkit on your system: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+  - On Ubuntu you will also need to run: ```sudo apt install python3.10-venv```
+
+To use TextGen, follow these steps:
+1. Clone the repository AIPG-GenHub.
+```bash 
+git clone https://github.com/gonner22/AIPG-GenHub
+```
+2. Navigate into the cloned directory.
+```bash
+cd AIPG-GenHub
+```
+3. Create a Python virtual environment.
+```bash
+python3 -m venv venv2
+```
+4. Activate the virtual environment.
+```bash
+source venv2/bin/activate
+```
+5. Install PyYAML.
+```bash
+pip install python-dotenv loguru ruamel.yaml horde-model-reference horde-sdk
+```
+
+To customize your ImageGen Worker, follow these steps:
+
+1. Create a copy of `bridgeData_imagegen_template.yaml` in the root directory of the cloned repository and rename it to `bridgeData.yaml`. Update the following mandatory fields in `bridgeData.yaml`:
+   - `horde_url` _(required)_: Enter horde url ("https://api.aipowergrid.io")
+   - `api_key` _(required)_: Enter your Grid API key. If you don't have one, [register here](https://api.aipowergrid.io/register) to get an API key.
+   - `dreamer_name` _(required)_: Choose a custom name for your worker.
+   - `cache_home` _(required)_: The location in which stable diffusion ckpt models are stored
+
+   _Optionally, you can also modify these fields:_
+   - `max_threads`: Set the number of concurrent requests your worker should handle. Higher values require more VRAM. Default is 1.
+   - `models_to_load`: The models to use
+   - Please ensure to review and adjust other parameters as needed for specific configurations.
+
+2. Execute the following script to convert the configuration parameters defined in the previous step (`bridgeData.yaml`) into a format compatible with the Docker container:
+```bash
+python3 convert_config_to_env.py
+```
+   After executing the script, you will find `bridgeData.env` in the same directory. This file contains the environment variables compatible with the container.
+
+### Building the image for our worker
+Select the appropriate version based on the CUDA version installed on your system:
+
+#### CUDA 12.1
+```bash
+docker build -t <image_name> -f Dockerfiles/Dockerfile.12.1.1-22.04 .
+```
+#### CUDA 12.2
+```bash
+docker build -t <image_name> -f Dockerfiles/Dockerfile.12.2.2-22.04 .
+```
+#### CUDA 12.3
+```bash
+docker build -t <image_name> -f Dockerfiles/Dockerfile.12.3.2-22.04 .
+```
+
+After a brief period, the image will be generated and downloaded, totaling around 9.31 GB.
+
+### Running the container
+```bash
+docker run --gpus "all" -it --env-file bridgeData.env -p 443:443 --name <container_name> <image_name>
+```
+
+After executing this command, the container will be loaded. Please wait a few minutes as it downloads the models.
+
+**Note:** To interact with the Docker container, you can follow these steps:
+- To list your running containers, use the command `docker ps -a`
+- To enter the running container, use the command `docker attach <container_name>`
+- To exit the container without stopping it, press `Ctrl + P`, followed by `Ctrl + Q`
