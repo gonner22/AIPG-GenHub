@@ -1,11 +1,3 @@
-# ************************************* AIPG-GenHub    MIT 2024 **********************************************************************
-# Centralized AI Worker Repository Automation
-#
-# This script automates the setup process for a centralized repository handling AI worker and generators.
-# It includes functionality to clone repositories from GitHub, create Docker networks, build Docker images, and run Docker containers.
-#
-#************************************************************************************************************************************
-
 # Importing necessary modules
 import os
 import shutil
@@ -18,13 +10,17 @@ def clone_repo(repo_url, destination):
         shutil.rmtree(destination)
     subprocess.run(['git', 'clone', repo_url, destination])
 
+# Function to convert config to env
+def convert_config_to_env():
+    subprocess.run(['python3', 'convert_config_to_env.py'])
+
 # Function to build a Docker image
 def build_docker_image():
-    subprocess.run(['docker', 'build', '-t', config['worker_config']['image_name'], '-f', 'Dockerfile.12.3.2-22.04', '.'])
+    subprocess.run(['docker', 'build', '-t', config['worker_config']['image_name'], '-f', 'Dockerfiles/Dockerfile.12.3.2-22.04', '.'])
 
 # Function to run a Docker container
-def run_docker_container(exec_type, ports, network, container_name, image_name, **kwargs):
-    command = ['docker', 'run', 'gpus', '-p', ports, '--env-file', env-file,  '--name', container_name]
+def run_docker_container(exec_type, ports, gpus, env_file, container_name, image_name, **kwargs):
+    command = ['docker', 'run', '--gpus', gpus, '-p', ports, '--env-file', env_file,  '--name', container_name]
 
     if exec_type:
         command.insert(2, '-'+exec_type)
@@ -65,13 +61,17 @@ if __name__ == "__main__":
         exit(1)
 
     # Copying bridgeData.yaml to grid-image-worker directory
-    shutil.copy("bridgeData.yaml", "grid-image-worker")
+    shutil.copy("bridgeData.yaml", "image-worker")
 
     # Changing directory to grid-text-worker
-    os.chdir("grid-image-worker")
+    os.chdir("image-worker")
+
+    # Convert config to env
+    convert_config_to_env()
 
     # Building worker Docker image
     build_docker_image()
 
     # Running worker Docker container
-    run_docker_container(**config['worker_config'])
+    run_docker_container(**config['worker_config'], env_file=config['worker_config']['env-file'])
+

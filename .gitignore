@@ -1,4 +1,6 @@
 bridgeData.yaml
 venv/
+venv-imagegen/
 grid-text-worker/
 aphrodite-engine/
+image-worker/

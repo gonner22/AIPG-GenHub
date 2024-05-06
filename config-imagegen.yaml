@@ -1,7 +1,6 @@
 worker_config:
   exec_type: it
   ports: "443:443"
-  network: ai_network
   container_name: image-worker
   gpus: "all"
   env-file: bridgeData.env
