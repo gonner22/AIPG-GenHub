@@ -3,5 +3,5 @@ worker_config:
   ports: "443:443"
   container_name: image-worker
   gpus: "all"
-  env-file: bridgeData.env
+  env-file: bridgeData.env #This file is created during the image build, please do not change it
   image_name: image-worker-img
