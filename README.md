@@ -112,11 +112,11 @@ python3 -m venv venv-imagegen
 ```
 4. Activate the virtual environment.
 ```bash
-source imagegen/bin/activate
+source venv-imagegen/bin/activate
 ```
 5. Install Dependencies.
 ```bash
-pip install python-dotenv loguru ruamel.yaml horde-model-reference horde-sdk
+pip install pyyaml python-dotenv loguru ruamel.yaml horde-model-reference horde-sdk
 ```
 
 To customize your ImageGen Worker, follow these steps:
@@ -132,13 +132,7 @@ To customize your ImageGen Worker, follow these steps:
    - `models_to_load`: The models to use
    - Please ensure to review and adjust other parameters as needed for specific configurations.
 
-2. Execute the following script to convert the configuration parameters defined in the previous step (`bridgeData.yaml`) into a format compatible with the Docker container:
-```bash
-python3 convert_config_to_env.py
-```
-   After executing the script, you will find `bridgeData.env` in the same directory. This file contains the environment variables compatible with the container.
-
-3. Edit `config-imagengen.yaml` in the root directory of the cloned repository to configure container settings:
+2. Edit `config-imagengen.yaml` in the root directory of the cloned repository to configure container settings:
   - exec_type: Define the exec type of the container
   - ports: Ports enabled
   - container_name: Define the container name
