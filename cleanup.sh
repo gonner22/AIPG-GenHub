@@ -53,4 +53,7 @@ remove_cloned_repo "aphrodite-engine"
 # Remove Docker network. Replace with actual network name
 remove_docker_network "ai_network"
 
+# Prune Docker volumes
+docker volume prune -f
+
 echo "Cleanup completed."
