@@ -24,7 +24,7 @@ def build_docker_image():
 
 # Function to run a Docker container
 def run_docker_container(exec_type, ports, network, container_name, image_name, **kwargs):
-    command = ['docker', 'run', '-d', '-p', ports, '--network', network, '--name', container_name]
+    command = ['docker', 'run', '-d', '-p', ports, '--network', network, '--name', container_name, '-v '+container_name+':/tmp']
 
     if exec_type:
         command.insert(2, '-'+exec_type)
