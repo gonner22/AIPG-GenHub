@@ -4,6 +4,7 @@
 remove_docker_container_and_image() {
     local container_name=$1
     local image_name=$2
+    local respose=$3
 
     # Stop and remove the Docker container if it exists
     if docker ps -a --format '{{.Names}}' | grep -Eq "^${container_name}\$"; then
@@ -16,6 +17,14 @@ remove_docker_container_and_image() {
     if docker images --format '{{.Repository}}:{{.Tag}}' | grep -Eq "^${image_name}:latest\$"; then
         docker rmi "$image_name"
         echo "Docker image '$image_name' removed."
+    fi
+
+    # Remove local Docker volume
+    if [ "$response" = "y" ]; then
+      if docker volume ls -q | grep -Eq "^${container_name}$"; then
+        docker volume rm "${container_name}"
+        echo "Local Docker volume '${container_name}' removed."
+      fi
     fi
 }
 
@@ -40,11 +49,14 @@ remove_docker_network() {
     fi
 }
 
+# Ask the user if they want to remove local Docker volumes
+read -p "Do you want to remove local Docker volumes? (y/n)" response 
+
 # Remove worker Docker container and image
-remove_docker_container_and_image "worker" "worker_image_name"
+remove_docker_container_and_image "worker" "worker-image" "response"
 
 # Remove aphrodite-engine Docker container and image
-remove_docker_container_and_image "aphrodite-engine" "aphrodite_image_name"
+remove_docker_container_and_image "aphrodite-engine" "alpindale/aphrodite-engine" "response"
 
 # Remove cloned repositories
 remove_cloned_repo "grid-text-worker"
@@ -53,7 +65,7 @@ remove_cloned_repo "aphrodite-engine"
 # Remove Docker network. Replace with actual network name
 remove_docker_network "ai_network"
 
-# Prune Docker volumes
+# Prune Unused Docker volumes
 docker volume prune -f
 
 echo "Cleanup completed."
