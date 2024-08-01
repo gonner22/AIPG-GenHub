@@ -32,13 +32,13 @@ def detect_cuda_version():
 
 # Function to build a Docker image
 def build_docker_image(cuda_version):
-    print("Building Docker image...")
+    print(f"Building Docker image {cuda_version}...")
     supported_versions = ["12.1", "12.2", "12.3"]
     if cuda_version in supported_versions:
-        cuda_major_version = cuda_version.split('.')[0]
+        cuda_major_version = cuda_version.split('.')[1]
         dockerfile_found = False
         for filename in os.listdir("Dockerfiles"):
-            if f"Dockerfile.{cuda_major_version}" in filename:
+            if f"Dockerfile.12.{cuda_major_version}" in filename:
                 dockerfile_name = filename
                 dockerfile_found = True
                 break
