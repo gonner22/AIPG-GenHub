@@ -142,7 +142,7 @@ To customize your ImageGen Worker, follow these steps:
 
 ### Running the Python script to launch Image Worker
 ```bash
-sudo python3 worker_imagegen.py
+python3 worker_imagegen.py
 ```
 
 After executing this command, the container will be loaded. Please wait a few minutes as it downloads the models.
