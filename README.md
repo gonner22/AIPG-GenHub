@@ -91,7 +91,7 @@ This module facilitates the setup of an AI Power Grid Image Worker through the c
 ### Installation
 #### Pre-requisites
 - Install and configure
-  - Docker: https://docs.docker.com/engine/install
+  - Docker: https://docs.docker.com/engine/install. Note: user must be able to run Docker without `sudo` (https://docs.docker.com/engine/install/linux-postinstall/)
   - Python
   - CUDA Driver 12.1, 12.2 or 12.3 only. Ensure that one of these three versions is installed on your system, as you will later need to select the container image that matches the installed version.
   - CUDA Toolkit and NVIDIA Container Toolkit on your system: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
