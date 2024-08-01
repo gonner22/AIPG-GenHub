@@ -83,6 +83,7 @@ if __name__ == "__main__":
     print("Location: United States of America / Web: aipowergrid.io / X: @AIPowerGrid / e-mail: admin@aipowergrid.io\n")
 
     # Detect CUDA version
+    print("")
     cuda_version = detect_cuda_version()
     if cuda_version:
         print(f"Detected CUDA version: {cuda_version}")
@@ -91,34 +92,42 @@ if __name__ == "__main__":
         sys.exit(1)  # Exit the script with status code 1
 
     # Loading configurations from config.yaml
+    print("")
     print("Loading configuration from config-imagegen.yaml...")
     with open('config-imagegen.yaml') as file:
         config = yaml.safe_load(file)
     print("Configuration loaded.")
 
     # Cloning repositories from GitHub
+    print("")
     clone_repo("https://github.com/gonner22/image-worker", "image-worker")
 
     # Checking for existence of bridgeData.yaml
+    print("")
     if not os.path.exists("bridgeData.yaml"):
         print("Error: bridgeData.yaml not found!")
         print("Please copy bridgeData_imagegen_template.yaml file with the name bridgeData.yaml in the root directory including your configurations.")
         sys.exit(1)  # Exit the script with status code 1
 
     # Copying bridgeData.yaml to image-worker directory
+    print("")
     print("Copying bridgeData.yaml to image-worker directory...")
     shutil.copy("bridgeData.yaml", "image-worker")
     print("bridgeData.yaml copied successfully.")
 
     # Changing directory to image-worker
+    print("")
     print("Changing directory to image-worker...")
     os.chdir("image-worker")
 
     # Convert config to env
+    print("")
     convert_config_to_env()
 
     # Building worker Docker image
+    print("")
     build_docker_image(cuda_version)
 
     # Running worker Docker container
+    print("")
     run_docker_container(**config['worker_config'], env_file=config['worker_config']['env-file'])
